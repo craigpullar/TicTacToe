@@ -31,11 +31,21 @@ const Game = (board = emptyBoard()) => {
     
     const isWinState = () => POSSIBLE_WIN_INDEXES.map(isWinIndexArray).some(valueIsTrue);              
     
-    const isDrawState = () => !isWinState();
+    const isActiveState = () => board.includes(0);
+
+    const isNumberOfMovesFair = ([a,b]) => a-b < 2 && a-b > -2;
+    const getMovesCountArray = () => 
+        board.deepCopy().reduce((accum, val) => 
+            val != 0 ? (accum[val-1]++, accum) : accum 
+        , [0,0]);
+    const isValidState = () => isNumberOfMovesFair(getMovesCountArray());
+                               
 
     const evalState = () => {
-        if(isWinState()) return STATES.get('WIN');
-        if(isDrawState()) return STATES.get('DRAW');
+        if(!isValidState()) return STATES.get('INVALID');
+        else if(isWinState()) return STATES.get('WIN');
+        else if(isActiveState()) return STATES.get('ACTIVE');
+        else return STATES.get('DRAW');
     }
 
 

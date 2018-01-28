@@ -76,9 +76,34 @@ describe('Game Object', () => {
                 const board = [2,1,2,1,2,1,1,1,2];
                 myGame = Game(board);
                 expect(myGame.evalState()).toBe(STATES.get('WIN'));
-            });
-            
+            });   
         });
+
+        describe('State with empty space but a win state', () => {
+            it('should return a win state', () => {
+                const board = [2,1,2,1,2,1,0,1,2];
+                myGame = Game(board);
+                expect(myGame.evalState()).toBe(STATES.get('WIN'));
+            });
+        });
+
+        describe('State with an empty space but has no win state', () => {
+            it('should return an active state', () => {
+                const board = [2,1,2,1,0,1,2,1,2];
+                myGame = Game(board);
+                expect(myGame.evalState()).toBe(STATES.get('ACTIVE'));
+            });   
+        });
+        describe('State where one player has taken 2 more moves than the other', () => {
+            it('should return an invalid state', () => {
+                const board = [2,1,2,1,1,1,1,1,2];
+                myGame = Game(board);
+                expect(myGame.evalState()).toBe(STATES.get('INVALID'));
+            });   
+        });
+        
+        
+        
         
         
                
