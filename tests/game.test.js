@@ -22,7 +22,7 @@ describe('Game Object', () => {
         });
 
         it('should alter the board', () => {
-          myGame.makeMove(0);
+          myGame.makeMove(0, PLAYERS.get('BLUE'));
           expect(myGame.getBoard()[0]).not.toBe(0);
         });
 
@@ -31,7 +31,7 @@ describe('Game Object', () => {
             expect(myGame.getBoard()[0]).toBe(PLAYERS.get('BLUE'));
         });
         it('should not allow a move to a full square', () => {
-            myGame.makeMove(0, PLAYERS.get('BLUE'));
+            myGame.makeMove(0, PLAYERS.get('RED'));
             expect(() => {
                 myGame.makeMove(0, PLAYERS.get('BLUE'))
             }).toThrow(Error);
@@ -41,6 +41,14 @@ describe('Game Object', () => {
                 myGame.makeMove(10, PLAYERS.get('BLUE'))
             }).toThrow(Error);
         });
+        
+        it('should throw an error if move creates an invalid state', () => {
+            myGame.makeMove(0, PLAYERS.get('BLUE'))
+            expect(() => {
+                myGame.makeMove(1, PLAYERS.get('BLUE'));
+            }).toThrow(Error);
+        });
+        
         
         
     });
@@ -100,29 +108,6 @@ describe('Game Object', () => {
                 myGame = Game(board);
                 expect(myGame.evalState()).toBe(STATES.get('INVALID'));
             });   
-        });
-        
-        
-        
-        
-        
-               
-        describe('Win state', () => {
-
-            
-        });
-
-        describe('Draw state', () => {
-
-        });
-
-        describe('Active state', () => {
-          
-        });
-        
-
-        describe('Invalid state', () => {
-          
         });
         
     });

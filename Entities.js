@@ -1,10 +1,12 @@
 const ERRORS = new Map();
     ERRORS.set('BOARD_POSITION_RANGE', 'Board position not in range');
     ERRORS.set('BOARD_POSITION_TAKEN', 'Board position full, cannot move here');
+    ERRORS.set('MOVE_INVALID_STATE', 'Cannot make move: Move would create invalid state');
+    
 
 const PLAYERS = new Map();
-    PLAYERS.set('RED', 'Red Player');
-    PLAYERS.set('BLUE', 'Blue Player');
+    PLAYERS.set('RED', 1);
+    PLAYERS.set('BLUE', 2);
 
 const STATES = new Map();
     STATES.set('WIN', 0);
