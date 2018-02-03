@@ -1,31 +1,34 @@
-const { ERRORS, STATES, POSSIBLE_WIN_INDEXES } = require('./Entities');
+const { ERRORS, STATES, POSSIBLE_WIN_INDEXES, PLAYERS } = require('./Entities');
 const emptyBoard = () => [0,0,0,0,0,0,0,0,0];
-const Game = (board = emptyBoard()) => {    
+const defaultPlayers = [ 
+    PLAYERS.get('BLUE'),
+    PLAYERS.get('RED')
+]
+;
+const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {    
     const getBoard = () => board;
 
     const makeMove = (boardPosition, PLAYER) => {
-        const isBoardPositionInRange = boardPosition => (0 <= boardPosition && 9 > boardPosition);
-        const isBoardPositionTaken = boardPosition => board[boardPosition] != 0;
-        const throwError = error => { 
-            if(ERRORS.has(error)) throw new Error(ERRORS.get(error));
-            throw new Error('Invalid error thrown'); 
-        }
-        const wouldCreateInvalidState = (boardPosition, PLAYER) => {
-            const evalBoard = Object.assign(board.deepCopy(), { [boardPosition]: PLAYER});
-            return evalState(evalBoard) == STATES.get('INVALID');
-        }
-        const isValidMove = (boardPosition, PLAYER) => {
-            wouldCreateInvalidState(boardPosition, PLAYER) && throwError('MOVE_INVALID_STATE');
-            !isBoardPositionInRange(boardPosition) && throwError('BOARD_POSITION_RANGE');
-            isBoardPositionTaken(boardPosition) && throwError('BOARD_POSITION_TAKEN');
+        const isBoardPositionInRange = () => (0 <= boardPosition && 9 > boardPosition);
+        const isBoardPositionTaken = () => board[boardPosition] != 0;
+        const wouldCreateInvalidState = () => PLAYER != getCurrentPlayer();
+            
+        const isValidMove = () => {
+            wouldCreateInvalidState() && errorFactory('MOVE_INVALID_STATE');
+            !isBoardPositionInRange() && errorFactory('BOARD_POSITION_RANGE');
+            isBoardPositionTaken() && errorFactory('BOARD_POSITION_TAKEN');
             return true;
-        }
+        };
+
         isValidMove(boardPosition, PLAYER) && (board[boardPosition] = PLAYER);
     };
 
-    
-                          
+    const errorFactory = error => { 
+        if(ERRORS.has(error)) throw new Error(ERRORS.get(error));
+        throw new Error('Invalid error thrown'); 
+    }
 
+    
     const evalState = (evalBoard = board.deepCopy()) => {
         const areBoardIndexesTakenBySamePlayer = indexArray =>
             indexArray.map((boardIndex, i) => evalBoard[boardIndex] > 0 && 
@@ -50,14 +53,20 @@ const Game = (board = emptyBoard()) => {
         else if(isActiveState()) return STATES.get('ACTIVE');
         else return STATES.get('DRAW');
     }
-
+    
+    const getCurrentPlayer = () => {
+        const countMoves = (moveCount, boardValue) => boardValue > 0 ? (moveCount +=1, moveCount) : moveCount;
+        const numMoves = board.deepCopy().reduce(countMoves, 0);
+        const isEven = numMoves % 2 == 0;
+        return isEven ? PLAYERS[0] : PLAYERS[1];
+    };
 
     
-
     return {
         getBoard,
         makeMove,
         evalState,
+        getCurrentPlayer,
     };
 };
 

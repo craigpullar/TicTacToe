@@ -18,7 +18,11 @@ describe('Game Object', () => {
 
     describe('Making a move', () => {
         beforeEach(() => {
-            myGame = Game();
+            const gamePlayers = [
+                PLAYERS.get('BLUE'),
+                PLAYERS.get('RED')
+            ];
+            myGame = Game(undefined, gamePlayers);
         });
 
         it('should alter the board', () => {
@@ -30,12 +34,14 @@ describe('Game Object', () => {
             myGame.makeMove(0, PLAYERS.get('BLUE'));
             expect(myGame.getBoard()[0]).toBe(PLAYERS.get('BLUE'));
         });
+
         it('should not allow a move to a full square', () => {
-            myGame.makeMove(0, PLAYERS.get('RED'));
+            myGame.makeMove(0, PLAYERS.get('BLUE'));
             expect(() => {
-                myGame.makeMove(0, PLAYERS.get('BLUE'))
+                myGame.makeMove(0, PLAYERS.get('RED'))
             }).toThrow(Error);
         });
+
         it('should throw an error if boardPosition is not in range', () => {
             expect(() => {
                 myGame.makeMove(10, PLAYERS.get('BLUE'))
@@ -102,6 +108,7 @@ describe('Game Object', () => {
                 expect(myGame.evalState()).toBe(STATES.get('ACTIVE'));
             });   
         });
+
         describe('State where one player has taken 2 more moves than the other', () => {
             it('should return an invalid state', () => {
                 const board = [2,1,2,1,1,1,1,1,2];
@@ -113,9 +120,24 @@ describe('Game Object', () => {
     });
 
     describe('Turn Counting', () => {
-      
+        beforeEach(() => {
+            const gamePlayers = [
+                PLAYERS.get('RED'),
+                PLAYERS.get('BLUE'),
+            ];
+            myGame = Game(undefined, gamePlayers);
+        });
+
+        it('should be able to determine whose turn it is', () => {
+            expect(myGame.getCurrentPlayer()).toBe(PLAYERS.get('RED'));
+        });
+
+        it('should be able to determine whose turn it is after a few moves', () => {
+            myGame.makeMove(1, PLAYERS.get('RED'));
+            myGame.makeMove(4, PLAYERS.get('BLUE'));
+            myGame.makeMove(2, PLAYERS.get('RED'));
+
+            expect(myGame.getCurrentPlayer()).toBe(PLAYERS.get('BLUE'));
+        });   
     });
-    
-        
-  
 });
