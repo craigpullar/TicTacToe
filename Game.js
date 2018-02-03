@@ -61,12 +61,14 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
         return isEven ? PLAYERS[0] : PLAYERS[1];
     };
 
-    
+    const getPlayers = () => PLAYERS;
+
     return {
         getBoard,
         makeMove,
         evalState,
         getCurrentPlayer,
+        getPlayers,
     };
 };
 

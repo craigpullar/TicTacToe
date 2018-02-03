@@ -120,11 +120,11 @@ describe('Game Object', () => {
     });
 
     describe('Turn Counting', () => {
+        const gamePlayers = [
+            PLAYERS.get('RED'),
+            PLAYERS.get('BLUE'),
+        ];
         beforeEach(() => {
-            const gamePlayers = [
-                PLAYERS.get('RED'),
-                PLAYERS.get('BLUE'),
-            ];
             myGame = Game(undefined, gamePlayers);
         });
 
@@ -138,6 +138,11 @@ describe('Game Object', () => {
             myGame.makeMove(2, PLAYERS.get('RED'));
 
             expect(myGame.getCurrentPlayer()).toBe(PLAYERS.get('BLUE'));
-        });   
+        });
+
+        it('should be able to return all players in a game', () => {
+            expect(myGame.getPlayers()).toEqual(gamePlayers)
+        });
+        
     });
 });
