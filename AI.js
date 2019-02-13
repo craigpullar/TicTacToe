@@ -1,32 +1,13 @@
 const AI = (game, player) => {
-    const getNextMove = game => {
+  const buildSearchTree = () => {};
 
-    };
+  const isAITurn = game.currentPlayer() == player;
 
-    const getUtility = board => {
+  const minMax = (board, currentDepth, maxDepth) => {
+    if (isTerminalState(board)) return isTerminalState;
+  };
 
-    };
-
-    const isTerminalState = board => {
-
-    };
-
-    const getPossibleStates = board => {
-
-    };
-
-    const getPlayerForState = board => {
-
-    };
-
-    const isAITurn = game.currentPlayer() == player;
-
-    const minMax = (board, currentDepth, maxDepth) => {
-        if(isTerminalState(board)) return isTerminalState;
-
-    };
-    
-    return {
-        getNextMove,
-    }
-}
+  return {
+    getNextMove
+  };
+};
