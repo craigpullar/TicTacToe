@@ -30,7 +30,7 @@ describe("Node module", () => {
     });
   });
 
-  describe("utility function", () => {
+  describe("utility value", () => {
     it("should return 1 if the current state is a win state", () => {
       const myGame = Game(undefined, gamePlayers);
       myGame.makeMove(0, gamePlayers[0]);
@@ -49,4 +49,6 @@ describe("Node module", () => {
       expect(myNode.utility).toBe(0);
     });
   });
+
+  describe("getUtilityForPossibleNodes", () => {});
 });

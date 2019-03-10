@@ -6,10 +6,14 @@ const node = ({ gameState, possibleNodes = [] }) => {
 
   const utility = _gameState.evalState() === ENTITIES.STATES.get("WIN") ? 1 : 0;
   const getPossibleNodes = () => [...possibleNodes];
+  const getUtilityForPossibleNodes = () =>
+    possibleNodes.reduce((accumulator, node) => accumulator + node.utility, 0);
+
   return {
     getGameState,
     getPossibleNodes,
-    utility
+    utility,
+    getUtilityForPossibleNodes
   };
 };
 

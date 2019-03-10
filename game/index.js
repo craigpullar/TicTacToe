@@ -9,7 +9,7 @@ import { areIndexesTakenForPlayer, valueIsTrue } from "./utils";
 
 const emptyBoard = () => [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-const defaultPlayers = [PLAYERS.get("BLUE"), PLAYERS.get("RED")];
+const defaultPlayers = [PLAYERS.get("RED"), PLAYERS.get("BLUE")];
 
 const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
   const getBoard = () => [...board];
