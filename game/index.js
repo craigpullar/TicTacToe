@@ -1,8 +1,16 @@
-const { ERRORS, STATES, POSSIBLE_WIN_INDEXES, PLAYERS } = require("./Entities");
+import { or } from "ramda";
+const {
+  ERRORS,
+  STATES,
+  POSSIBLE_WIN_INDEXES,
+  PLAYERS
+} = require("../Entities");
+import { areIndexesTakenForPlayer, valueIsTrue } from "./utils";
 
 const emptyBoard = () => [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const defaultPlayers = [PLAYERS.get("BLUE"), PLAYERS.get("RED")];
+
 const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
   const getBoard = () => [...board];
 
@@ -33,15 +41,20 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
   };
 
   const evalState = (evalBoard = board.deepCopy()) => {
-    const areBoardIndexesTakenBySamePlayer = indexArray =>
-      indexArray.map((boardIndex, i) =>
-        evalBoard[boardIndex] > 0 && i
-          ? evalBoard[boardIndex] == evalBoard[indexArray[i - 1]]
-          : true
-      );
     const isWinIndexArray = indexArray =>
-      areBoardIndexesTakenBySamePlayer(indexArray).every(valueIsTrue);
-    const valueIsTrue = val => val === true;
+      or(
+        areIndexesTakenForPlayer({
+          indexArray,
+          player: PLAYERS[0],
+          board: evalBoard
+        }),
+        areIndexesTakenForPlayer({
+          indexArray,
+          player: PLAYERS[1],
+          board: evalBoard
+        })
+      );
+
     const isWinState = () =>
       POSSIBLE_WIN_INDEXES.map(isWinIndexArray).some(valueIsTrue);
 

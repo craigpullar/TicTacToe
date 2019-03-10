@@ -1,4 +1,4 @@
-const Game = require("../Game");
+const Game = require("./index");
 const { PLAYERS, STATES } = require("../Entities");
 
 describe("Game Object", () => {
@@ -54,6 +54,11 @@ describe("Game Object", () => {
 
   describe("Game State Evaluation", () => {
     describe("State where user has 3 across", () => {
+      it("should return active if no moves have been taken", () => {
+        const emptyGame = Game();
+        expect(emptyGame.evalState()).toBe(STATES.get("ACTIVE"));
+      });
+
       it("should return Win State", () => {
         const board = [1, 1, 1, 2, 2, 1, 2, 1, 2];
         myGame = Game(board);
