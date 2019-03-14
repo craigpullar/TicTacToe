@@ -1,3 +1,3 @@
-3. Print Board function
-4. Print state function
-3. Implement getNextMoveForGameState
+1. Implement getNextMoveForGameState
+2. Print Board function
+3. Print state function
