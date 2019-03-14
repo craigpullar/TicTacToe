@@ -118,4 +118,40 @@ describe("Node module", () => {
       });
     });
   });
+
+  describe("getUtilityOfPossibleNodes", () => {
+    it("should return the sum of utilities of possibleNodes for empty state", () => {
+      const testGame = Game();
+      const testNode = Node({
+        gameState: testGame,
+        shouldBuildPossibleNodes: true
+      });
+
+      const expectedValue = testNode
+        .getPossibleNodes()
+        .reduce((sum, node) => (sum += node.utility), 0);
+
+      expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
+    });
+
+    it("should return the sum of utilities of possibleNodes for node with possibleNodes with win state", () => {
+      const testGame = Game();
+      testGame.makeMove(1);
+      testGame.makeMove(2);
+      testGame.makeMove(3);
+      testGame.makeMove(4);
+      testGame.makeMove(5);
+
+      const testNode = Node({
+        gameState: testGame,
+        shouldBuildPossibleNodes: true
+      });
+
+      const expectedValue = testNode
+        .getPossibleNodes()
+        .reduce((sum, node) => (sum += node.utility), 0);
+
+      expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
+    });
+  });
 });
