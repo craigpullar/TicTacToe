@@ -39,13 +39,13 @@ describe("Node module", () => {
       myGame.makeMove(4, gamePlayers[1]);
       myGame.makeMove(2, gamePlayers[0]);
       const myNode = Node({ gameState: myGame });
-      expect(myNode.utility).toBe(1);
+      expect(myNode.getUtility()).toBe(1);
     });
 
     it("should return 0 if the current state is not a win state", () => {
       const myGame = Game(undefined, gamePlayers);
       const myNode = Node({ gameState: myGame });
-      expect(myNode.utility).toBe(0);
+      expect(myNode.getUtility()).toBe(0);
     });
   });
 
@@ -129,7 +129,7 @@ describe("Node module", () => {
 
       const expectedValue = testNode
         .getPossibleNodes()
-        .reduce((sum, node) => (sum += node.utility), 0);
+        .reduce((sum, node) => (sum += node.getUtility()), 0);
 
       expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
     });
@@ -149,7 +149,7 @@ describe("Node module", () => {
 
       const expectedValue = testNode
         .getPossibleNodes()
-        .reduce((sum, node) => (sum += node.utility), 0);
+        .reduce((sum, node) => (sum += node.getUtility()), 0);
 
       expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
     });

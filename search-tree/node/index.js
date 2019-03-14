@@ -1,3 +1,4 @@
+import R from "ramda";
 import ENTITIES from "../../Entities";
 import { buildPossibleNodesForGameState } from "./utils";
 
@@ -11,17 +12,25 @@ const Node = ({
   const _gameState = gameState;
   const _possibleNodes = possibleNodes;
 
-  const getGameState = () => ({ ..._gameState });
+  const getUtility = R.ifElse(
+    R.partial(R.equals, [_gameState.evalState(), ENTITIES.STATES.get("WIN")]),
+    R.always(1),
+    R.always(0)
+  );
 
-  const utility = _gameState.evalState() === ENTITIES.STATES.get("WIN") ? 1 : 0;
-  const getPossibleNodes = () => _possibleNodes;
-  const getUtilityForPossibleNodes = () =>
-    possibleNodes.reduce((accumulator, node) => accumulator + node.utility, 0);
+  const getUtilityForPossibleNodes = () => {
+    const getUtilityArray = R.map(
+      R.partial(R.prop, ["getUtility"]),
+      possibleNodes
+    );
+    const utilityArray = R.map(R.call, getUtilityArray);
+    return R.reduce(R.add, 0, utilityArray);
+  };
 
   return {
-    getGameState,
-    getPossibleNodes,
-    utility,
+    getGameState: R.always({ ..._gameState }),
+    getPossibleNodes: R.always(_possibleNodes),
+    getUtility,
     getUtilityForPossibleNodes
   };
 };
