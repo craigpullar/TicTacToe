@@ -12,7 +12,11 @@ export const buildPossibleNodesForGameState = ({
         newGame.makeMove(index);
         return [
           ...possibleNodes,
-          Node({ gameState: { ...newGame }, shouldBuildPossibleNodes })
+          Node({
+            gameState: { ...newGame },
+            shouldBuildPossibleNodes,
+            action: index
+          })
         ];
       } catch (error) {
         return possibleNodes;

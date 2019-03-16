@@ -8,12 +8,12 @@ const mockBuildPossibleNodesCreator = () => {
   let finishedSearching = false;
 
   return () => {
-  if(!finishedSearching) {
-    finishedSearching = true;
-    return true;
-  } 
-  return false;
-  }
+    if (!finishedSearching) {
+      finishedSearching = true;
+      return true;
+    }
+    return false;
+  };
 };
 
 describe("Node module", () => {
@@ -72,6 +72,15 @@ describe("Node module", () => {
         expect(testNode.getPossibleNodes()).toHaveLength(9);
       });
 
+      it("should return the corresponding action", () => {
+        const emptyGameState = Game();
+        const testNode = Node({
+          gameState: emptyGameState,
+          shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
+        });
+        expect(testNode.getPossibleNodes()[3].action).toBe(3);
+      });
+
       it("should return 9 states where the user has made a different move", () => {
         const emptyGameState = Game();
 
@@ -109,14 +118,10 @@ describe("Node module", () => {
 
       it("should return 8 states with different moves if a move has already been made", () => {
         const gameState = Game();
-        let finishedSearching = false
         gameState.makeMove(1);
         const testNode = Node({
           gameState,
-          shouldBuildPossibleNodes: () => {
-            finishedSearching = true;
-            
-          }
+          shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
         });
         const possibleNodes = testNode.getPossibleNodes();
 
@@ -171,6 +176,21 @@ describe("Node module", () => {
         .reduce((sum, node) => (sum += node.getUtility()), 0);
 
       expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
+    });
+
+    it("should return 1 if win state available ", () => {
+      const myGame = Game();
+      myGame.makeMove(3);
+      myGame.makeMove(7);
+      myGame.makeMove(5);
+      myGame.makeMove(2);
+
+      const testNode = Node({
+        gameState: myGame,
+        shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
+      });
+
+      expect(testNode.getUtilityForPossibleNodes()).toBe(1);
     });
   });
 });

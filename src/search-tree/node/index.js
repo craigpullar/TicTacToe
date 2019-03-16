@@ -14,7 +14,8 @@ const Node = ({
       }
     ]),
     R.always([])
-  )()
+  )(),
+  action
 }) => {
   const _gameState = gameState;
   const _possibleNodes = possibleNodes;
@@ -34,14 +35,15 @@ const Node = ({
       possibleNodes
     );
     const utilityArray = R.map(R.call, getUtilityArray);
-    return R.reduce(R.add, 0, utilityArray);
+    return R.reduce(R.add, getUtility(), utilityArray);
   };
 
   return {
     getGameState: R.always({ ..._gameState }),
     getPossibleNodes: R.always(_possibleNodes),
     getUtility,
-    getUtilityForPossibleNodes
+    getUtilityForPossibleNodes,
+    action
   };
 };
 

@@ -1,3 +1,5 @@
 2. Implement getNextMoveForGameState
-2. Print Board function
-3. Print state function
+3. PrintBoard function
+3. The minxMax part of the searchTree
+4. Improve performance of tree?
+5. Improve AI performance?
