@@ -4,6 +4,18 @@ import { PLAYERS } from "../../Entities";
 
 const gamePlayers = [PLAYERS.get("BLUE"), PLAYERS.get("RED")];
 
+const mockBuildPossibleNodesCreator = () => {
+  let finishedSearching = false;
+
+  return () => {
+  if(!finishedSearching) {
+    finishedSearching = true;
+    return true;
+  } 
+  return false;
+  }
+};
+
 describe("Node module", () => {
   describe("Initialisation", () => {
     it("should return me an object, if given a validGameState object", () => {
@@ -55,7 +67,7 @@ describe("Node module", () => {
         const emptyGameState = Game();
         const testNode = Node({
           gameState: emptyGameState,
-          shouldBuildPossibleNodes: true
+          shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
         });
         expect(testNode.getPossibleNodes()).toHaveLength(9);
       });
@@ -65,7 +77,7 @@ describe("Node module", () => {
 
         const testNode = Node({
           gameState: emptyGameState,
-          shouldBuildPossibleNodes: true
+          shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
         });
         const possibleNodes = testNode.getPossibleNodes();
 
@@ -90,15 +102,22 @@ describe("Node module", () => {
         gameState.makeMove(1);
         const testNode = Node({
           gameState,
-          shouldBuildPossibleNodes: true
+          shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
         });
         expect(testNode.getPossibleNodes()).toHaveLength(8);
       });
 
       it("should return 8 states with different moves if a move has already been made", () => {
         const gameState = Game();
+        let finishedSearching = false
         gameState.makeMove(1);
-        const testNode = Node({ gameState, shouldBuildPossibleNodes: true });
+        const testNode = Node({
+          gameState,
+          shouldBuildPossibleNodes: () => {
+            finishedSearching = true;
+            
+          }
+        });
         const possibleNodes = testNode.getPossibleNodes();
 
         const indexesMovedInto = possibleNodes.map(node => {
@@ -124,7 +143,7 @@ describe("Node module", () => {
       const testGame = Game();
       const testNode = Node({
         gameState: testGame,
-        shouldBuildPossibleNodes: true
+        shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
       });
 
       const expectedValue = testNode
@@ -144,7 +163,7 @@ describe("Node module", () => {
 
       const testNode = Node({
         gameState: testGame,
-        shouldBuildPossibleNodes: true
+        shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
       });
 
       const expectedValue = testNode

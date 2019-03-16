@@ -4,13 +4,23 @@ import { buildPossibleNodesForGameState } from "./utils";
 
 const Node = ({
   gameState,
-  shouldBuildPossibleNodes = false,
-  possibleNodes = shouldBuildPossibleNodes
-    ? buildPossibleNodesForGameState(gameState)
-    : []
+  shouldBuildPossibleNodes = R.always(false),
+  possibleNodes = R.ifElse(
+    shouldBuildPossibleNodes,
+    R.partial(buildPossibleNodesForGameState, [
+      {
+        gameState,
+        shouldBuildPossibleNodes
+      }
+    ]),
+    R.always([])
+  )()
 }) => {
   const _gameState = gameState;
   const _possibleNodes = possibleNodes;
+  if (!shouldBuildPossibleNodes) {
+    throw new Error("no shouldBuildPossibleNodes");
+  }
 
   const getUtility = R.ifElse(
     R.partial(R.equals, [_gameState.evalState(), ENTITIES.STATES.get("WIN")]),
