@@ -1,11 +1,11 @@
-import { or } from "ramda";
+import R from "ramda";
 const {
   ERRORS,
   STATES,
   POSSIBLE_WIN_INDEXES,
   PLAYERS
 } = require("../Entities");
-import { areIndexesTakenForPlayer, valueIsTrue } from "./utils";
+import { areIndexesTakenForPlayer, valueIsTrue, stateToString } from "./utils";
 
 const emptyBoard = () => [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -42,7 +42,7 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
 
   const evalState = (evalBoard = board.deepCopy()) => {
     const isWinIndexArray = indexArray =>
-      or(
+      R.or(
         areIndexesTakenForPlayer({
           indexArray,
           player: PLAYERS[0],
@@ -92,7 +92,8 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
     evalState,
     getCurrentPlayer,
     getPlayers,
-    isValidMove
+    isValidMove,
+    printState: R.partial(console.log, [stateToString(getBoard())])
   };
 };
 

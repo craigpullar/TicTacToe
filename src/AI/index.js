@@ -16,13 +16,6 @@ const compareNodeTreeUtilities = (currentNode, compareNode) =>
 export const AI = ({ gameState }) => {
   let _searchTree = SearchTree({ gameState, searchDepth: 1 });
 
-  console.log(
-    _searchTree.getPossibleNodes().map(node => ({
-      utility: node.getUtilityForPossibleNodes(),
-      action: node.action
-    }))
-  );
-
   const getNextActionForPossibleNodes = possibleNodes =>
     R.prop(
       "action",

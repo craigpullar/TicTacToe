@@ -102,6 +102,7 @@ describe("Game Object", () => {
       it("should return an active state", () => {
         const board = [2, 1, 2, 1, 0, 1, 2, 1, 2];
         myGame = Game(board);
+
         expect(myGame.evalState()).toBe(STATES.get("ACTIVE"));
       });
     });
