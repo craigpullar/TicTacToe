@@ -1,9 +1,5 @@
 TODO:
-1. Weight tree depth
-2. Alpha beta pruning?
-3. Weight draw states?
+1. Weight draw states?
 2. Make accessible as npm package
-3.  Refactor
-3. Increase test coverage
-4. Improve performance of tree? Alpha-beta pruning
-5. Improve AI performance?
+3. Refactor
+4. Increase test coverage
