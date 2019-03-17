@@ -2,5 +2,5 @@ TODO:
 1. Make accessible as npm package
 2. Refactor
 3. Increase test coverage
-4. Improve performance of tree?
+4. Improve performance of tree? Alpha-beta pruning
 5. Improve AI performance?
