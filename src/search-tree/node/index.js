@@ -38,11 +38,20 @@ const Node = ({
     utilityForWin
   );
 
-  const getUtility = R.ifElse(
-    R.partial(R.equals, [_gameState.evalState(), ENTITIES.STATES.get("WIN")]),
-    getWinStateUtilityForCurrentPlayer,
-    R.always(0)
-  );
+  const getUtility = R.cond([
+    [
+      R.partial(R.equals, [_gameState.evalState(), ENTITIES.STATES.get("WIN")]),
+      getWinStateUtilityForCurrentPlayer
+    ],
+    [
+      R.partial(R.equals, [
+        _gameState.evalState(),
+        ENTITIES.STATES.get("DRAW")
+      ]),
+      R.always(weightAgainstTreeDepthForUtility(50))
+    ],
+    [R.T, R.always(0)]
+  ]);
 
   const getUtilityForPossibleNodes = () => {
     const getUtilityArray = R.map(

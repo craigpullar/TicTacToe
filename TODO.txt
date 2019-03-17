@@ -1,5 +1,4 @@
 TODO:
-1. Weight draw states?
-2. Make accessible as npm package
-3. Refactor
-4. Increase test coverage
+1. Make accessible as npm package
+2. Refactor
+3. Increase test coverage
