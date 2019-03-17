@@ -14,27 +14,6 @@ const defaultPlayers = [PLAYERS.get("RED"), PLAYERS.get("BLUE")];
 const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
   const getBoard = () => [...board];
 
-  const isValidMove = ({
-    boardPosition,
-    PLAYER = getCurrentPlayer(),
-    board = getBoard()
-  }) => {
-    const isBoardPositionInRange = () =>
-      0 <= boardPosition && 9 > boardPosition;
-    const isBoardPositionTaken = () => board[boardPosition] != 0;
-    const wouldCreateInvalidState = () => PLAYER != getCurrentPlayer();
-
-    wouldCreateInvalidState() && errorFactory("MOVE_INVALID_STATE");
-    !isBoardPositionInRange() && errorFactory("BOARD_POSITION_RANGE");
-    isBoardPositionTaken() && errorFactory("BOARD_POSITION_TAKEN");
-    return true;
-  };
-
-  const makeMove = (boardPosition, PLAYER = getCurrentPlayer()) => {
-    isValidMove({ boardPosition, PLAYER }) && (board[boardPosition] = PLAYER);
-    return [...board];
-  };
-
   const errorFactory = error => {
     if (ERRORS.has(error)) throw new Error(ERRORS.get(error));
     throw new Error("Invalid error thrown");
@@ -74,6 +53,31 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
     else if (isWinState()) return STATES.get("WIN");
     else if (isActiveState()) return STATES.get("ACTIVE");
     else return STATES.get("DRAW");
+  };
+
+  const isValidMove = ({
+    boardPosition,
+    PLAYER = getCurrentPlayer(),
+    board = getBoard()
+  }) => {
+    const gameOver = [STATES.get("WIN"), STATES.get("DRAW")].includes(
+      evalState()
+    );
+    const isBoardPositionInRange = () =>
+      0 <= boardPosition && 9 > boardPosition;
+    const isBoardPositionTaken = () => board[boardPosition] != 0;
+    const wouldCreateInvalidState = () => PLAYER != getCurrentPlayer();
+
+    gameOver && errorFactory("GAME_OVER");
+    wouldCreateInvalidState() && errorFactory("MOVE_INVALID_STATE");
+    !isBoardPositionInRange() && errorFactory("BOARD_POSITION_RANGE");
+    isBoardPositionTaken() && errorFactory("BOARD_POSITION_TAKEN");
+    return true;
+  };
+
+  const makeMove = (boardPosition, PLAYER = getCurrentPlayer()) => {
+    isValidMove({ boardPosition, PLAYER }) && (board[boardPosition] = PLAYER);
+    return [...board];
   };
 
   const getCurrentPlayer = () => {

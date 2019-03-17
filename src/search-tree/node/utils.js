@@ -1,9 +1,12 @@
+import R from "ramda";
 import Game from "../../game";
 import Node from "./index";
 
 export const buildPossibleNodesForGameState = ({
   gameState,
-  shouldBuildPossibleNodes
+  shouldBuildPossibleNodes,
+  currentPlayer,
+  currentDepth
 }) => {
   const possibleNextNodes = [...new Array(9)].reduce(
     (possibleNodes, _, index) => {
@@ -15,7 +18,9 @@ export const buildPossibleNodesForGameState = ({
           Node({
             gameState: { ...newGame },
             shouldBuildPossibleNodes,
-            action: index
+            action: index,
+            currentPlayer,
+            currentDepth: R.inc(currentDepth)
           })
         ];
       } catch (error) {

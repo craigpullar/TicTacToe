@@ -5,17 +5,21 @@ import { buildPossibleNodesForGameState } from "./utils";
 const Node = ({
   gameState,
   shouldBuildPossibleNodes = R.always(false),
+  action,
+  currentPlayer = gameState.getCurrentPlayer(),
+  currentDepth = 0,
   possibleNodes = R.ifElse(
-    shouldBuildPossibleNodes,
+    R.partial(shouldBuildPossibleNodes, [currentDepth]),
     R.partial(buildPossibleNodesForGameState, [
       {
         gameState,
-        shouldBuildPossibleNodes
+        shouldBuildPossibleNodes,
+        currentPlayer,
+        currentDepth
       }
     ]),
     R.always([])
-  )(),
-  action
+  )()
 }) => {
   const _gameState = gameState;
   const _possibleNodes = possibleNodes;
@@ -25,13 +29,13 @@ const Node = ({
 
   const getUtility = R.ifElse(
     R.partial(R.equals, [_gameState.evalState(), ENTITIES.STATES.get("WIN")]),
-    R.always(1),
+    R.always(currentPlayer !== _gameState.getCurrentPlayer() ? 1 : -1),
     R.always(0)
   );
 
   const getUtilityForPossibleNodes = () => {
     const getUtilityArray = R.map(
-      R.partial(R.prop, ["getUtility"]),
+      R.partial(R.prop, ["getUtilityForPossibleNodes"]),
       possibleNodes
     );
     const utilityArray = R.map(R.call, getUtilityArray);

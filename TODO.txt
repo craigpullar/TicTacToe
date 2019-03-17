@@ -1,5 +1,4 @@
 TODO:
-1. The minxMax part of the searchTree
-2. Improve performance of tree?
-3. Improve AI performance?
+1. Improve performance of tree?
+2. Improve AI performance?
 3. Make accessible as npm package

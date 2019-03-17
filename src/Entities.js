@@ -5,6 +5,7 @@ ERRORS.set(
   "MOVE_INVALID_STATE",
   "Cannot make move: Move would create invalid state"
 );
+ERRORS.set("GAME_OVER", "Game is over");
 
 const PLAYERS = new Map();
 PLAYERS.set("RED", 1);

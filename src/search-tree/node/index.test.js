@@ -43,15 +43,26 @@ describe("Node module", () => {
   });
 
   describe("utility value", () => {
-    it("should return 1 if the current state is a win state", () => {
+    it("should return 1 if the current state is a win state for the currentPlayer", () => {
       const myGame = Game(undefined, gamePlayers);
       myGame.makeMove(0, gamePlayers[0]);
       myGame.makeMove(3, gamePlayers[1]);
       myGame.makeMove(1, gamePlayers[0]);
       myGame.makeMove(4, gamePlayers[1]);
       myGame.makeMove(2, gamePlayers[0]);
-      const myNode = Node({ gameState: myGame });
+      const myNode = Node({ gameState: myGame, currentPlayer: gamePlayers[0] });
       expect(myNode.getUtility()).toBe(1);
+    });
+
+    it("should return -1 if current state is win state for other player", () => {
+      const myGame = Game(undefined, gamePlayers);
+      myGame.makeMove(0, gamePlayers[0]);
+      myGame.makeMove(3, gamePlayers[1]);
+      myGame.makeMove(1, gamePlayers[0]);
+      myGame.makeMove(4, gamePlayers[1]);
+      myGame.makeMove(2, gamePlayers[0]);
+      const myNode = Node({ gameState: myGame, currentPlayer: gamePlayers[1] });
+      expect(myNode.getUtility()).toBe(-1);
     });
 
     it("should return 0 if the current state is not a win state", () => {
