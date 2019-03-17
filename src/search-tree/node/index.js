@@ -1,4 +1,5 @@
 import R from "ramda";
+import { throwError } from "../../helpers";
 import ENTITIES from "../../Entities";
 import { buildPossibleNodesForGameState } from "./utils";
 
@@ -23,13 +24,23 @@ const Node = ({
 }) => {
   const _gameState = gameState;
   const _possibleNodes = possibleNodes;
-  if (!shouldBuildPossibleNodes) {
-    throw new Error("no shouldBuildPossibleNodes");
-  }
+  !shouldBuildPossibleNodes && throwError("no shouldBuildPossibleNodes");
+  const maxWeight = 100;
+  const weightAgainstTreeDepthForUtility = utility =>
+    Math.round(utility / (currentDepth + 1) ** 3);
+  const utilityForWin = R.always(weightAgainstTreeDepthForUtility(maxWeight));
+  const utilityForLoss = R.always(
+    R.negate(weightAgainstTreeDepthForUtility(maxWeight))
+  );
+  const getWinStateUtilityForCurrentPlayer = R.ifElse(
+    R.always(R.equals(currentPlayer, _gameState.getCurrentPlayer())),
+    utilityForLoss,
+    utilityForWin
+  );
 
   const getUtility = R.ifElse(
     R.partial(R.equals, [_gameState.evalState(), ENTITIES.STATES.get("WIN")]),
-    R.always(currentPlayer !== _gameState.getCurrentPlayer() ? 1 : -1),
+    getWinStateUtilityForCurrentPlayer,
     R.always(0)
   );
 

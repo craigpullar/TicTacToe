@@ -3,7 +3,7 @@ import Game from "../Game";
 
 describe("AI", () => {
   describe("getNextAction", () => {
-    it("should for an empty board should return index 1", () => {
+    it("should for an empty board should return index 0", () => {
       const myGame = Game();
       const myAi = AI({ gameState: myGame });
       const nextAction = myAi.getNextAction();

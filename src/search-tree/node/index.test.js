@@ -43,7 +43,7 @@ describe("Node module", () => {
   });
 
   describe("utility value", () => {
-    it("should return 1 if the current state is a win state for the currentPlayer", () => {
+    it("should return 9 if the current state is a win state for the currentPlayer", () => {
       const myGame = Game(undefined, gamePlayers);
       myGame.makeMove(0, gamePlayers[0]);
       myGame.makeMove(3, gamePlayers[1]);
@@ -51,10 +51,10 @@ describe("Node module", () => {
       myGame.makeMove(4, gamePlayers[1]);
       myGame.makeMove(2, gamePlayers[0]);
       const myNode = Node({ gameState: myGame, currentPlayer: gamePlayers[0] });
-      expect(myNode.getUtility()).toBe(1);
+      expect(myNode.getUtility()).toBe(100);
     });
 
-    it("should return -1 if current state is win state for other player", () => {
+    it("should return -9 if current state is win state for other player", () => {
       const myGame = Game(undefined, gamePlayers);
       myGame.makeMove(0, gamePlayers[0]);
       myGame.makeMove(3, gamePlayers[1]);
@@ -62,7 +62,7 @@ describe("Node module", () => {
       myGame.makeMove(4, gamePlayers[1]);
       myGame.makeMove(2, gamePlayers[0]);
       const myNode = Node({ gameState: myGame, currentPlayer: gamePlayers[1] });
-      expect(myNode.getUtility()).toBe(-1);
+      expect(myNode.getUtility()).toBe(-100);
     });
 
     it("should return 0 if the current state is not a win state", () => {
@@ -189,7 +189,7 @@ describe("Node module", () => {
       expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
     });
 
-    it("should return 1 if win state available ", () => {
+    it("should return 4.5 if win state available in possibleNodes", () => {
       const myGame = Game();
       myGame.makeMove(3);
       myGame.makeMove(7);
@@ -201,7 +201,7 @@ describe("Node module", () => {
         shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
       });
 
-      expect(testNode.getUtilityForPossibleNodes()).toBe(1);
+      expect(testNode.getUtilityForPossibleNodes()).toBe(13);
     });
   });
 });
