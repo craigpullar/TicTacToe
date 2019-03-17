@@ -1,4 +1,6 @@
 TODO:
-1. Improve performance of tree?
-2. Improve AI performance?
-3. Make accessible as npm package
+1. Make accessible as npm package
+2. Refactor
+3. Increase test coverage
+4. Improve performance of tree?
+5. Improve AI performance?
