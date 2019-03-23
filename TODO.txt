@@ -1,4 +1,11 @@
 TODO:
 1. Make accessible as npm package (v1.0.0)
 2. Refactor
+  - Node Utils
+  - Game
+  - Game utils
+  - Search tree
+  - Search tree utils
+  - AI
+  - AI utils
 3. Increase test coverage
