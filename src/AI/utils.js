@@ -1,14 +1,15 @@
 import * as R from "ramda";
 
-export const compareNodeTreeUtilities = (currentNode, compareNode) => {
-  return R.ifElse(
-    R.always(
-      R.lt(
-        currentNode.getUtilityForPossibleNodes(),
-        compareNode.getUtilityForPossibleNodes()
-      )
-    ),
-    R.always(compareNode),
-    R.always(currentNode)
-  )();
-};
+const compareNodeUtilities = (currentNode, compareNode) =>
+  R.lt(
+    R.call(currentNode.getUtilityForPossibleNodes),
+    R.call(compareNode.getUtilityForPossibleNodes)
+  );
+
+const getCompareNodeFromParams = R.nthArg(1);
+const getCurrentNodeFromParams = R.nthArg(0);
+export const compareAndRetrieveDesiredNode = R.ifElse(
+  compareNodeUtilities,
+  getCompareNodeFromParams,
+  getCurrentNodeFromParams
+);
