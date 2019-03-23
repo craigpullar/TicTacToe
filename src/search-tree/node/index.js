@@ -1,7 +1,7 @@
 import R from "ramda";
 import { throwError } from "../../helpers";
 import ENTITIES from "../../Entities";
-import { buildPossibleNodesForGameState } from "./utils";
+import { buildPossibleNodesForGameState, maxWeight } from "./utils";
 
 const Node = ({
   gameState,
@@ -25,13 +25,16 @@ const Node = ({
   const _gameState = gameState;
   const _possibleNodes = possibleNodes;
   !shouldBuildPossibleNodes && throwError("no shouldBuildPossibleNodes");
-  const maxWeight = 100;
+
   const weightAgainstTreeDepthForUtility = utility =>
-    Math.round(utility / (currentDepth + 1) ** 3);
+    Math.round(R.divide(utility, R.add(currentDepth, 1) ** 3));
+
   const utilityForWin = R.always(weightAgainstTreeDepthForUtility(maxWeight));
+
   const utilityForLoss = R.always(
     R.negate(weightAgainstTreeDepthForUtility(maxWeight))
   );
+
   const getWinStateUtilityForCurrentPlayer = R.ifElse(
     R.always(R.equals(currentPlayer, _gameState.getCurrentPlayer())),
     utilityForLoss,
@@ -59,7 +62,7 @@ const Node = ({
       possibleNodes
     );
     const utilityArray = R.map(R.call, getUtilityArray);
-    return R.reduce(R.add, getUtility(), utilityArray);
+    return R.reduce(R.add, R.call(getUtility), utilityArray);
   };
 
   return {

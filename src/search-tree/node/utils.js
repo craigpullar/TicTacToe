@@ -31,3 +31,5 @@ export const buildPossibleNodesForGameState = ({
   );
   return possibleNextNodes;
 };
+
+export const maxWeight = 100;
