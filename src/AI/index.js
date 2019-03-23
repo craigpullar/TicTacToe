@@ -7,7 +7,7 @@ export const AI = ({ gameState }) => {
 
   const getNextActionForPossibleNodes = possibleNodes => {
     const nextNode = R.reduce(
-      compareAndRetrieveNodeDesiredNode,
+      compareAndRetrieveDesiredNode,
       R.head(possibleNodes),
       possibleNodes
     );

@@ -5,5 +5,4 @@ TODO:
   - Game utils
   - Search tree
   - Search tree utils
-  - AI utils
 3. Increase test coverage
