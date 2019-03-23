@@ -2,34 +2,51 @@ import R from "ramda";
 import Game from "../../game";
 import Node from "./index";
 
+const getNextGameState = ({ gameState, index }) => {
+  const newGame = Game(gameState.getBoard(), gameState.getPlayers());
+  newGame.makeMove(index);
+  return { ...newGame };
+};
+
+const getPossibleNodeForIndex = ({
+  gameState,
+  shouldBuildPossibleNodes,
+  currentPlayer,
+  currentDepth,
+  index
+}) =>
+  Node({
+    gameState: getNextGameState({ gameState, index }),
+    shouldBuildPossibleNodes,
+    action: index,
+    currentPlayer,
+    currentDepth: R.inc(currentDepth)
+  });
+
 export const buildPossibleNodesForGameState = ({
   gameState,
   shouldBuildPossibleNodes,
   currentPlayer,
   currentDepth
 }) => {
-  const possibleNextNodes = [...new Array(9)].reduce(
-    (possibleNodes, _, index) => {
-      try {
-        const newGame = Game(gameState.getBoard(), gameState.getPlayers());
-        newGame.makeMove(index);
-        return [
-          ...possibleNodes,
-          Node({
-            gameState: { ...newGame },
-            shouldBuildPossibleNodes,
-            action: index,
-            currentPlayer,
-            currentDepth: R.inc(currentDepth)
-          })
-        ];
-      } catch (error) {
-        return possibleNodes;
-      }
-    },
-    []
+  const reduceIndexToPossibleNode = (possibleNodes, _, index) =>
+    R.append(
+      getPossibleNodeForIndex({
+        gameState,
+        shouldBuildPossibleNodes,
+        currentDepth,
+        currentPlayer,
+        index
+      }),
+      possibleNodes
+    );
+  const getPossibleNodesCatcher = R.nthArg(1);
+  const reduceWithIndex = R.addIndex(R.reduce);
+  return reduceWithIndex(
+    R.tryCatch(reduceIndexToPossibleNode, getPossibleNodesCatcher),
+    [],
+    [...new Array(9)]
   );
-  return possibleNextNodes;
 };
 
 export const maxWeight = 100;
