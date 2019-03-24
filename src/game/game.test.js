@@ -111,6 +111,7 @@ describe("Game Object", () => {
       it("should return an invalid state", () => {
         const board = [2, 1, 2, 1, 1, 1, 1, 1, 2];
         myGame = Game(board);
+        myGame.printState();
         expect(myGame.evalState()).toBe(STATES.get("INVALID"));
       });
     });

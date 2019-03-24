@@ -3,6 +3,4 @@ TODO:
 2. Refactor
   - Game
   - Game utils
-  - Search tree
-  - Search tree utils
 3. Increase test coverage
