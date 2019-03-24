@@ -1,4 +1,4 @@
-import R from "ramda";
+import * as R from "ramda";
 import Node from "./node";
 
 export const SearchTree = ({ gameState, searchDepth = 5 }) => {
@@ -8,7 +8,7 @@ export const SearchTree = ({ gameState, searchDepth = 5 }) => {
   return Node({
     gameState,
     shouldBuildPossibleNodes,
-    currentPlayer: gameState.getCurrentPlayer()
+    currentPlayer: R.call(gameState.getCurrentPlayer)
   });
 };
 
