@@ -1,4 +1,6 @@
 import * as R from "ramda";
+import { PLAYERS, ERRORS } from "../Entities";
+import { throwError } from "../helpers";
 
 export const areIndexesTakenForPlayer = ({ indexArray, player, board }) => {
   const boardPositionDoesEqualPlayerForIndex = R.compose(
@@ -28,4 +30,19 @@ export const stateToString = board => {
     stateToStringWithoutDividers(board)
   );
   return R.join("", boardArrayWithDividers);
+};
+
+export const emptyBoard = () => [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+export const defaultPlayers = [PLAYERS.get("RED"), PLAYERS.get("BLUE")];
+
+export const errorFactory = error => {
+  ERRORS.has(error) && throwError(ERRORS.get(error));
+  throwError("Invalid error thrown");
+};
+
+export const isNumberOfMovesFair = (a, b) => {
+  const bIsValidNumberOfMoves = R.lt(R.subtract(a, b), 2);
+  const aIsValidNumberOfMoves = R.gt(R.subtract(a, b), -2);
+  return R.and(bIsValidNumberOfMoves, aIsValidNumberOfMoves);
 };

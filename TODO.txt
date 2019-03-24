@@ -2,5 +2,4 @@ TODO:
 1. Make accessible as npm package (v1.0.0)
 2. Refactor
   - Game
-  - Game utils
 3. Increase test coverage
