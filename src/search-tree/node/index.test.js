@@ -43,24 +43,28 @@ describe("Node module", () => {
   });
 
   describe("utility value", () => {
-    it("should return 9 if the current state is a win state for the currentPlayer", () => {
-      const myGame = Game(undefined, gamePlayers);
-      myGame.makeMove(0, gamePlayers[0]);
-      myGame.makeMove(3, gamePlayers[1]);
-      myGame.makeMove(1, gamePlayers[0]);
-      myGame.makeMove(4, gamePlayers[1]);
-      myGame.makeMove(2, gamePlayers[0]);
-      const myNode = Node({ gameState: myGame, currentPlayer: gamePlayers[0] });
+    it("should return 9 if the current state is a win state for the player", () => {
+      const myGame = Game();
+      myGame.makeMove(0);
+      myGame.makeMove(3);
+      myGame.makeMove(1);
+      myGame.makeMove(4);
+      myGame.makeMove(2);
+      const myNode = Node({
+        gameState: myGame,
+        currentPlayer: myGame.getOtherPlayer()
+      });
+      console.log(myNode.getGameState().evalState());
       expect(myNode.getUtility()).toBe(100);
     });
 
     it("should return -9 if current state is win state for other player", () => {
       const myGame = Game(undefined, gamePlayers);
-      myGame.makeMove(0, gamePlayers[0]);
-      myGame.makeMove(3, gamePlayers[1]);
-      myGame.makeMove(1, gamePlayers[0]);
-      myGame.makeMove(4, gamePlayers[1]);
-      myGame.makeMove(2, gamePlayers[0]);
+      myGame.makeMove(0);
+      myGame.makeMove(3);
+      myGame.makeMove(1);
+      myGame.makeMove(4);
+      myGame.makeMove(2);
       const myNode = Node({ gameState: myGame, currentPlayer: gamePlayers[1] });
       expect(myNode.getUtility()).toBe(-100);
     });
@@ -134,13 +138,16 @@ describe("Node module", () => {
           gameState,
           shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
         });
+        console.log(testNode.getGameState().getPlayers());
         const possibleNodes = testNode.getPossibleNodes();
 
         const indexesMovedInto = possibleNodes.map(node => {
           return node
             .getGameState()
             .getBoard()
-            .findIndex(value => value === node.getGameState().getPlayers()[1]);
+            .findIndex(
+              value => value === testNode.getGameState().getPlayers()[1]
+            );
         });
 
         const uniqueIndexes = indexesMovedInto.reduce((accumulator, value) => {

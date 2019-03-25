@@ -3,7 +3,11 @@ import Game from "../../game";
 import Node from "./index";
 
 const getNextGameState = ({ gameState, index }) => {
-  const newGame = Game(gameState.getBoard(), gameState.getPlayers());
+  const newGame = Game(
+    gameState.getBoard(),
+    gameState.getPlayers(),
+    gameState.getCurrentPlayer()
+  );
   newGame.makeMove(index);
   return { ...newGame };
 };

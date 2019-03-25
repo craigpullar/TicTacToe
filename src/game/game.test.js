@@ -22,7 +22,7 @@ describe("Game Object", () => {
     });
 
     it("should alter the board", () => {
-      myGame.makeMove(0, PLAYERS.get("BLUE"));
+      myGame.makeMove(0);
       expect(myGame.getBoard()[0]).not.toBe(0);
     });
 
@@ -41,13 +41,6 @@ describe("Game Object", () => {
     it("should throw an error if boardPosition is not in range", () => {
       expect(() => {
         myGame.makeMove(10, PLAYERS.get("BLUE"));
-      }).toThrow(Error);
-    });
-
-    it("should throw an error if move creates an invalid state", () => {
-      myGame.makeMove(0, PLAYERS.get("BLUE"));
-      expect(() => {
-        myGame.makeMove(1, PLAYERS.get("BLUE"));
       }).toThrow(Error);
     });
   });

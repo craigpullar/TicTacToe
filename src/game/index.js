@@ -1,5 +1,6 @@
 import R from "ramda";
-import { ERRORS, STATES, POSSIBLE_WIN_INDEXES } from "../Entities";
+import { STATES, POSSIBLE_WIN_INDEXES } from "../Entities";
+import { setArrayIndexToValue } from "../helpers";
 import {
   areIndexesTakenForPlayer,
   valueIsTrue,
@@ -7,13 +8,32 @@ import {
   emptyBoard,
   defaultPlayers,
   errorFactory,
-  isNumberOfMovesFair
+  isNumberOfMovesFair,
+  reduceBoardToMoves,
+  isBoardPositionInRange
 } from "./utils";
 
-const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
-  const getBoard = () => [...board];
+const Game = (
+  board = emptyBoard(),
+  PLAYERS = defaultPlayers,
+  startingPlayer = PLAYERS[0]
+) => {
+  let _currentPlayer = startingPlayer;
+  let _board = board;
+  const getBoard = () => [..._board];
+  const setBoard = newBoard => {
+    _board = newBoard;
+  };
+  const getCurrentPlayer = () => _currentPlayer;
+  //TODO: Refactor
 
-  const evalState = (evalBoard = board.deepCopy()) => {
+  const getOtherPlayer = () =>
+    PLAYERS.filter(player => player !== _currentPlayer)[0];
+  const togglePlayer = () => {
+    _currentPlayer = getOtherPlayer();
+  };
+
+  const evalState = (evalBoard = getBoard()) => {
     const isWinIndexArray = indexArray =>
       R.or(
         areIndexesTakenForPlayer({
@@ -33,16 +53,8 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
 
     const isActiveState = () => R.includes(0, evalBoard);
 
-    // TODO: Refactor this reduce
     const getMovesCountArray = () =>
-      R.reduce(
-        (accumulator, value) =>
-          !R.equals(value, 0)
-            ? (accumulator[value - 1]++, accumulator)
-            : accumulator,
-        [0, 0],
-        evalBoard.deepCopy()
-      );
+      R.reduce(reduceBoardToMoves, [0, 0], evalBoard);
 
     const isValidState = () => isNumberOfMovesFair(...getMovesCountArray());
 
@@ -52,40 +64,31 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
     return STATES.get("DRAW");
   };
 
-  const isValidMove = ({
-    boardPosition,
-    PLAYER = getCurrentPlayer(),
-    board = getBoard()
-  }) => {
+  const isValidMove = ({ boardPosition }) => {
     const gameOver = R.includes(evalState(), [
       STATES.get("WIN"),
       STATES.get("DRAW")
     ]);
-    const isBoardPositionInRange = () =>
-      R.includes(boardPosition, R.range(0, 9));
-    const isBoardPositionTaken = () => !R.equals(board[boardPosition], 0);
-    const wouldCreateInvalidState = () => !R.equals(PLAYER, getCurrentPlayer());
+
+    const isBoardPositionTaken = () => !R.equals(getBoard()[boardPosition], 0);
 
     gameOver && errorFactory("GAME_OVER");
-    wouldCreateInvalidState() && errorFactory("MOVE_INVALID_STATE");
-    !isBoardPositionInRange() && errorFactory("BOARD_POSITION_RANGE");
+    !isBoardPositionInRange(boardPosition) &&
+      errorFactory("BOARD_POSITION_RANGE");
     isBoardPositionTaken() && errorFactory("BOARD_POSITION_TAKEN");
     return true;
   };
 
-  //TODO: Refactor function
-  const makeMove = (boardPosition, PLAYER = getCurrentPlayer()) => {
-    isValidMove({ boardPosition, PLAYER }) && (board[boardPosition] = PLAYER);
-    return [...board];
-  };
-
-  //TODO: Refactor function
-  const getCurrentPlayer = () => {
-    const countMoves = (moveCount, boardValue) =>
-      boardValue > 0 ? ((moveCount += 1), moveCount) : moveCount;
-    const numMoves = board.deepCopy().reduce(countMoves, 0);
-    const isEven = numMoves % 2 == 0;
-    return isEven ? PLAYERS[0] : PLAYERS[1];
+  const makeMove = boardPosition => {
+    if (isValidMove({ boardPosition })) {
+      const boardWithMoveTaken = setArrayIndexToValue({
+        index: boardPosition,
+        value: getCurrentPlayer(),
+        array: getBoard()
+      });
+      setBoard(boardWithMoveTaken);
+      togglePlayer();
+    }
   };
 
   return {
@@ -93,9 +96,10 @@ const Game = (board = emptyBoard(), PLAYERS = defaultPlayers) => {
     makeMove,
     evalState,
     getCurrentPlayer,
+    getOtherPlayer,
     getPlayers: R.always(PLAYERS),
     isValidMove,
-    printState: R.partial(console.log, [stateToString(getBoard())])
+    printState: () => console.log(stateToString(getBoard()))
   };
 };
 
