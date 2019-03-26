@@ -47,15 +47,15 @@ export const isNumberOfMovesFair = (a, b) => {
   return R.and(bIsValidNumberOfMoves, aIsValidNumberOfMoves);
 };
 
-// TODO: Refactor
 export const reduceBoardToMoves = (movesArray, boardValue) => {
   const currentPlayer = R.dec(boardValue);
-  if (R.equals(boardValue, 0)) return movesArray;
-  return [...movesArray].map((moveArrayValue, movesArrayIndex) =>
+  const mapMovesArray = (moveArrayValue, movesArrayIndex) =>
     R.equals(currentPlayer, movesArrayIndex)
       ? R.inc(moveArrayValue)
-      : moveArrayValue
-  );
+      : moveArrayValue;
+
+  if (R.equals(boardValue, 0)) return movesArray;
+  return [...movesArray].map(mapMovesArray);
 };
 
 export const isBoardPositionInRange = boardPosition =>

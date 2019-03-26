@@ -1,5 +1,6 @@
 TODO:
 1. Make accessible as npm package (v1.0.0)
-2. Refactor
-  - Game
-3. Increase test coverage
+2. Increase test coverage
+  - Snapshot test for print state
+  - more utils test
+  - test more AI states

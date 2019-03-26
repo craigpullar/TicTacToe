@@ -54,7 +54,6 @@ describe("Node module", () => {
         gameState: myGame,
         currentPlayer: myGame.getOtherPlayer()
       });
-      console.log(myNode.getGameState().evalState());
       expect(myNode.getUtility()).toBe(100);
     });
 
@@ -138,7 +137,6 @@ describe("Node module", () => {
           gameState,
           shouldBuildPossibleNodes: mockBuildPossibleNodesCreator()
         });
-        console.log(testNode.getGameState().getPlayers());
         const possibleNodes = testNode.getPossibleNodes();
 
         const indexesMovedInto = possibleNodes.map(node => {

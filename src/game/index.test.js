@@ -1,5 +1,5 @@
-const Game = require("./index");
-const { PLAYERS, STATES } = require("../Entities");
+import Game from "./index";
+import { PLAYERS, STATES } from "../Entities";
 
 describe("Game Object", () => {
   let myGame;

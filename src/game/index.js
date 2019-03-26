@@ -25,10 +25,19 @@ const Game = (
     _board = newBoard;
   };
   const getCurrentPlayer = () => _currentPlayer;
-  //TODO: Refactor
 
-  const getOtherPlayer = () =>
-    PLAYERS.filter(player => player !== _currentPlayer)[0];
+  const getOtherPlayer = () => {
+    const equalsCurrentPlayer = R.partial(R.equals, [_currentPlayer]);
+    const notCurrentPlayerArray = R.filter(
+      R.compose(
+        R.not,
+        equalsCurrentPlayer
+      ),
+      PLAYERS
+    );
+    return R.head(notCurrentPlayerArray);
+  };
+
   const togglePlayer = () => {
     _currentPlayer = getOtherPlayer();
   };
@@ -103,4 +112,4 @@ const Game = (
   };
 };
 
-module.exports = Game;
+export default Game;
