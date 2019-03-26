@@ -1,4 +1,2 @@
 TODO:
-1. Increase test coverage
-  - more utils test
-  - test more AI states
+1. Finish all todos

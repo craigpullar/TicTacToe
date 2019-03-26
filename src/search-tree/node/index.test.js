@@ -32,6 +32,17 @@ describe("Node module", () => {
       });
       expect(testNode.getPossibleNodes()[0]).toMatchObject(testChildNode);
     });
+
+    it("should return the action passed to the node", () => {
+      const testChildNode = Node({ gameState: Game() });
+      const testAction = 1;
+      const testNode = Node({
+        gameState: Game(),
+        possibleNodes: [testChildNode],
+        action: testAction
+      });
+      expect(testNode.action).toBe(testAction);
+    });
   });
 
   describe("getGameState", () => {
