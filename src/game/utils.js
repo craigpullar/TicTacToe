@@ -48,6 +48,7 @@ export const isNumberOfMovesFair = (a, b) => {
 };
 
 export const reduceBoardToMoves = (movesArray, boardValue) => {
+  //TODO: Make this extendable to any players passed to game
   const currentPlayer = R.dec(boardValue);
   const mapMovesArray = (moveArrayValue, movesArrayIndex) =>
     R.equals(currentPlayer, movesArrayIndex)

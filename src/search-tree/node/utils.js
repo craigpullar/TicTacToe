@@ -3,6 +3,7 @@ import Game from "../../game";
 import Node from "./index";
 
 const getNextGameState = ({ gameState, index }) => {
+  // TODO: test
   const newGame = Game(
     gameState.getBoard(),
     gameState.getPlayers(),
@@ -13,6 +14,7 @@ const getNextGameState = ({ gameState, index }) => {
 };
 
 const getPossibleNodeForIndex = ({
+  // TODO: test
   gameState,
   shouldBuildPossibleNodes,
   currentPlayer,

@@ -70,7 +70,7 @@ const Node = ({
     getPossibleNodes: R.always(_possibleNodes),
     getUtility,
     getUtilityForPossibleNodes,
-    action
+    action // TODO: test
   };
 };
 

@@ -57,7 +57,7 @@ describe("Node module", () => {
       expect(myNode.getUtility()).toBe(100);
     });
 
-    it("should return -9 if current state is win state for other player", () => {
+    it("should return -100 if current state is win state for other player", () => {
       const myGame = Game(undefined, gamePlayers);
       myGame.makeMove(0);
       myGame.makeMove(3);
@@ -194,7 +194,7 @@ describe("Node module", () => {
       expect(testNode.getUtilityForPossibleNodes()).toBe(expectedValue);
     });
 
-    it("should return 4.5 if win state available in possibleNodes", () => {
+    it("should return 13  if win state available in possibleNodes", () => {
       const myGame = Game();
       myGame.makeMove(3);
       myGame.makeMove(7);

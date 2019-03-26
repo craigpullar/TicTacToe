@@ -9,6 +9,7 @@ const compareNodeUtilities = (currentNode, compareNode) =>
 const getCompareNodeFromParams = R.nthArg(1);
 const getCurrentNodeFromParams = R.nthArg(0);
 export const compareAndRetrieveDesiredNode = R.ifElse(
+  // TODO: test
   compareNodeUtilities,
   getCompareNodeFromParams,
   getCurrentNodeFromParams

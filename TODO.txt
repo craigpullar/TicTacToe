@@ -1,6 +1,4 @@
 TODO:
-1. Make accessible as npm package (v1.0.0)
-2. Increase test coverage
-  - Snapshot test for print state
+1. Increase test coverage
   - more utils test
   - test more AI states

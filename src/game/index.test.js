@@ -104,7 +104,6 @@ describe("Game Object", () => {
       it("should return an invalid state", () => {
         const board = [2, 1, 2, 1, 1, 1, 1, 1, 2];
         myGame = Game(board);
-        myGame.printState();
         expect(myGame.evalState()).toBe(STATES.get("INVALID"));
       });
     });
@@ -130,6 +129,18 @@ describe("Game Object", () => {
 
     it("should be able to return all players in a game", () => {
       expect(myGame.getPlayers()).toEqual(gamePlayers);
+    });
+
+    it("should be able to get the other player in a game", () => {
+      expect(myGame.getOtherPlayer()).toEqual(gamePlayers[1]);
+    });
+  });
+
+  describe("Print state", () => {
+    it("should match stored snapshot", () => {
+      const board = [2, 1, 2, 1, 1, 1, 1, 1, 2];
+      myGame = Game(board);
+      expect(myGame.printState()).toMatchSnapshot();
     });
   });
 });
