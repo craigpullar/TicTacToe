@@ -1,5 +1,5 @@
 import * as R from "ramda";
-import { PLAYERS, ERRORS } from "../Entities";
+import { PLAYERS, ERRORS } from "../entities";
 import { throwError } from "../helpers";
 
 export const areIndexesTakenForPlayer = ({ indexArray, player, board }) => {

@@ -1,5 +1,5 @@
 import Game from "./index";
-import { PLAYERS, STATES } from "../Entities";
+import { PLAYERS, STATES } from "../entities";
 
 describe("Game Object", () => {
   let myGame;

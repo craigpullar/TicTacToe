@@ -1,5 +1,5 @@
 import R from "ramda";
-import { STATES, POSSIBLE_WIN_INDEXES } from "../Entities";
+import { STATES, POSSIBLE_WIN_INDEXES } from "../entities";
 import { setArrayIndexToValue } from "../helpers";
 import {
   areIndexesTakenForPlayer,

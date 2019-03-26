@@ -1,6 +1,6 @@
 import R from "ramda";
 import { throwError } from "../../helpers";
-import ENTITIES from "../../Entities";
+import ENTITIES from "../../entities";
 import { buildPossibleNodesForGameState, maxWeight } from "./utils";
 
 const Node = ({

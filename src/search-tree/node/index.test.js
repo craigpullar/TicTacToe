@@ -1,6 +1,6 @@
 import Node from "./index";
 import Game from "../../game";
-import { PLAYERS } from "../../Entities";
+import { PLAYERS } from "../../entities";
 
 const gamePlayers = [PLAYERS.get("BLUE"), PLAYERS.get("RED")];
 
