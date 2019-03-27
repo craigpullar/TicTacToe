@@ -43,6 +43,14 @@ describe("Game Object", () => {
         myGame.makeMove(10, PLAYERS.get("BLUE"));
       }).toThrow(Error);
     });
+
+    it("should throw an error if game is over", () => {
+      const board = [1, 1, 1, 2, 2, 0, 0, 0, 0];
+      const game = Game(board);
+      expect(() => {
+        game.makeMove(0);
+      }).toThrowError();
+    });
   });
 
   describe("Game State Evaluation", () => {

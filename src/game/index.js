@@ -107,7 +107,7 @@ const Game = (
     getCurrentPlayer,
     getOtherPlayer,
     getPlayers: R.always(PLAYERS),
-    isValidMove, // TODO: test
+    isValidMove,
     printState: () => console.log(stateToString(getBoard()))
   };
 };

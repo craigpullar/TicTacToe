@@ -2,8 +2,7 @@ import R from "ramda";
 import Game from "../../game";
 import Node from "./index";
 
-const getNextGameState = ({ gameState, index }) => {
-  // TODO: test
+export const getNextGameState = ({ gameState, index }) => {
   const newGame = Game(
     gameState.getBoard(),
     gameState.getPlayers(),
@@ -13,8 +12,7 @@ const getNextGameState = ({ gameState, index }) => {
   return { ...newGame };
 };
 
-const getPossibleNodeForIndex = ({
-  // TODO: test
+export const getPossibleNodeForIndex = ({
   gameState,
   shouldBuildPossibleNodes,
   currentPlayer,
