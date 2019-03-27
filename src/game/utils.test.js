@@ -96,13 +96,21 @@ describe("util functions", () => {
   describe("reduceBoardToMoves", () => {
     it("should increment index 0 if boardPosition equals 1", () => {
       const initialMovesArray = [0, 0];
-      const receivedMovesArray = reduceBoardToMoves(initialMovesArray, 1);
+      const players = [1, 2];
+      const receivedMovesArray = reduceBoardToMoves(players)(
+        initialMovesArray,
+        1
+      );
       expect(receivedMovesArray).toEqual([1, 0]);
     });
 
     it("should increment index 1 if boardPosition equals 2", () => {
       const initialMovesArray = [0, 0];
-      const receivedMovesArray = reduceBoardToMoves(initialMovesArray, 2);
+      const players = [1, 2];
+      const receivedMovesArray = reduceBoardToMoves(players)(
+        initialMovesArray,
+        2
+      );
       expect(receivedMovesArray).toEqual([0, 1]);
     });
   });

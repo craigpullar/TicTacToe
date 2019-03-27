@@ -63,7 +63,7 @@ const Game = (
     const isActiveState = () => R.includes(0, evalBoard);
 
     const getMovesCountArray = () =>
-      R.reduce(reduceBoardToMoves, [0, 0], evalBoard);
+      R.reduce(reduceBoardToMoves(PLAYERS), [0, 0], evalBoard);
 
     const isValidState = () => isNumberOfMovesFair(...getMovesCountArray());
 

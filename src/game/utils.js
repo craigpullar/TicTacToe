@@ -47,11 +47,9 @@ export const isNumberOfMovesFair = (a, b) => {
   return R.and(bIsValidNumberOfMoves, aIsValidNumberOfMoves);
 };
 
-export const reduceBoardToMoves = (movesArray, boardValue) => {
-  //TODO: Make this extendable to any players passed to game
-  const currentPlayer = R.dec(boardValue);
+export const reduceBoardToMoves = players => (movesArray, boardValue) => {
   const mapMovesArray = (moveArrayValue, movesArrayIndex) =>
-    R.equals(currentPlayer, movesArrayIndex)
+    R.equals(players[movesArrayIndex], boardValue)
       ? R.inc(moveArrayValue)
       : moveArrayValue;
 
